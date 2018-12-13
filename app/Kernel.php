@@ -59,24 +59,22 @@ class Kernel
         $connection = null;
         try {
             $connection = DriverManager::getConnection($db_config);
+            $configuration = new Configuration($connection);
+            $configuration->setName($migration_config['name']);
+            $configuration->setMigrationsNamespace($migration_config['migrations_namespace']);
+            $configuration->setMigrationsTableName($migration_config['table_name']);
+            $configuration->setMigrationsDirectory($migration_config['migrations_directory']);
+
+            $helper_set = new HelperSet([
+                'question' => new QuestionHelper(),
+                'db' => new ConnectionHelper($connection),
+                new ConfigurationHelper($connection, $configuration),
+            ]);
+            $cli = ConsoleRunner::createApplication($helper_set);
+            $cli->run();
         } catch (DBALException $e) {
             $this->console($e->getMessage());
-        }
-        $configuration = new Configuration($connection);
-        $configuration->setName($migration_config['name']);
-        $configuration->setMigrationsNamespace($migration_config['migrations_namespace']);
-        $configuration->setMigrationsTableName($migration_config['table_name']);
-        $configuration->setMigrationsDirectory($migration_config['migrations_directory']);
-
-        $helper_set = new HelperSet([
-            'question' => new QuestionHelper(),
-            'db' => new ConnectionHelper($connection),
-            new ConfigurationHelper($connection, $configuration),
-        ]);
-        $cli = ConsoleRunner::createApplication($helper_set);
-        try {
-            $cli->run();
-        } catch (Exception $e) {
+        } catch (Exception $e){
             $this->console($e->getMessage());
         }
     }

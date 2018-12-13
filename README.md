@@ -28,3 +28,7 @@ Others orders just like it.
 -  [Doctrine Migrations](https://github.com/doctrine/migrations)
 -  [symfony/dotenv](https://github.com/symfony/dotenv)
 -  [jakub-onderka/php-console-highlighter](https://github.com/jakub-onderka/php-console-highlighter)
+
+
+## Reference
+[[Doctrine Migrations] 数据库迁移组件的深入解析二：自定义集成](https://laravel-china.org/topics/13050/in-depth-analysis-of-doctrine-migrations-database-migration-component-two-custom-integration)
